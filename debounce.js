@@ -1,12 +1,11 @@
-
-
 // Debounce utility with immediate and trailing options
-
 function debounceUtility(fn, delay, immediate = false) {
     let timer;
 
     return function(...args) {
+
         const callnow = immediate && !timer;
+        clearTimeout(timer);
 
         timer = setTimeout(() => {
             timer = null;

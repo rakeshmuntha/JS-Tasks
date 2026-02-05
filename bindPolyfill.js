@@ -1,10 +1,14 @@
 // polyfill for bind
-if(!Function.prototype.bind) {
+if (!Function.prototype.bind) {
 
-    Function.prototype.bind = function(obj, ...args) {
-        const orgObj = obj;
-        return function(...fnargs) {
-            this.call(orgObj, ...args, ...fnargs)
+    Function.prototype.bind = function (obj, ...args) {
+
+        let fun = this ?? window;
+        return function bound(...fnargs) {
+            if (this instanceof bound) {
+                fun.call(this, ...args, ...fnargs);
+            }
+            else fun.call(obj, ...args, ...fnargs);
         }
     }
 }

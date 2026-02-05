@@ -1,16 +1,31 @@
-// Throttle utility with immediate and trailing options
-function throttleUtility(fn, delay, immediate = false) {
+// Throttle utility with trailing
+function throttleTrail(fn, delay) {
     let flag = true;
 
-    return function(...args) {
-        const callnow = immediate && !flag;
+    return function () {
+        if (flag) {
+            flag = false;
 
-        timer = setTimeout(() => {
-            timer = null;
-            
-            if(!immediate) fn(...args);
-        }, delay);
+            setTimeout(() => {
+                fn();
+                flag = true;
+            }, delay);
+        }
+    }
+}
 
-        if(callnow) fn(...args);
+// Throttle utility with leading
+function throttleLead(fn, delay) {
+    let flag = true;
+
+    return function () {
+        if (flag) {
+            fn();
+            flag = false;
+
+            setTimeout(() => {
+                flag = true;
+            }, delay);
+        }
     }
 }
